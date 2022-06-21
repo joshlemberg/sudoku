@@ -1,0 +1,387 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+	<style type="text/css">
+		#outer-table-cell {
+			border: solid;
+			border-color: black;
+			border-width: 3px;
+		}
+
+		#inner-table-cell {
+			padding: 0px;
+		}
+
+		input[type=number] {
+			padding: 0px;
+			width: 27px;
+			height: 27px;
+			text-align: center;
+			border: none;
+		}
+
+		input[type="submit"] {
+		    display: block;
+		    margin: 0 auto;
+		}
+
+		/* Hiding arrows on number input */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+
+	</style>
+
+	<div class="jumbotron text-center"><h1>Sudoku Solver</h1><br>Created by Josh Lemberg</div>
+	<form method="GET" action="">
+		<table style="margin-left: auto; margin-right: auto;">
+			<tbody>
+				<tr>
+					<td id="outer-table-cell">
+						<table class="table-bordered" style="padding-width: 0;">
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell00" maxlength="1" max="9" min="1" value={{ solvedboard[0][0] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell01" maxlength="1" max="9" min="1" value={{ solvedboard[0][1] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell02" maxlength="1" max="9" min="1" value={{ solvedboard[0][2] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell10" maxlength="1" max="9" min="1" value={{ solvedboard[1][0] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell11" maxlength="1" max="9" min="1" value={{ solvedboard[1][1] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell12" maxlength="1" max="9" min="1" value={{ solvedboard[1][2] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell20" maxlength="1" max="9" min="1" value={{ solvedboard[2][0] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell21" maxlength="1" max="9" min="1" value={{ solvedboard[2][1] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell22" maxlength="1" max="9" min="1" value={{ solvedboard[2][2] }}>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td id="outer-table-cell">
+						<table class="table-bordered" style="padding-width: 0;">
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell03" maxlength="1" max="9" min="1" value={{ solvedboard[0][3] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell04" maxlength="1" max="9" min="1" value={{ solvedboard[0][4] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell05" maxlength="1" max="9" min="1" value={{ solvedboard[0][5] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell13" maxlength="1" max="9" min="1" value={{ solvedboard[1][3] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell14" maxlength="1" max="9" min="1" value={{ solvedboard[1][4] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell15" maxlength="1" max="9" min="1" value={{ solvedboard[1][5] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell23" maxlength="1" max="9" min="1" value={{ solvedboard[2][3] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell24" maxlength="1" max="9" min="1" value={{ solvedboard[2][4] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell25" maxlength="1" max="9" min="1" value={{ solvedboard[2][5] }}>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td id="outer-table-cell">
+						<table class="table-bordered" style="padding-width: 0;">
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell06" maxlength="1" max="9" min="1" value={{ solvedboard[0][6] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell07" maxlength="1" max="9" min="1" value={{ solvedboard[0][7] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell08" maxlength="1" max="9" min="1" value={{ solvedboard[0][8] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell16" maxlength="1" max="9" min="1" value={{ solvedboard[1][6] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell17" maxlength="1" max="9" min="1" value={{ solvedboard[1][7] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell18" maxlength="1" max="9" min="1" value={{ solvedboard[1][8] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell26" maxlength="1" max="9" min="1" value={{ solvedboard[2][6] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell27" maxlength="1" max="9" min="1" value={{ solvedboard[2][7] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell28" maxlength="1" max="9" min="1" value={{ solvedboard[2][8] }}>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td id="outer-table-cell">
+						<table class="table-bordered" style="padding-width: 0;">
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell30" maxlength="1" max="9" min="1" value={{ solvedboard[3][0] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell31" maxlength="1" max="9" min="1" value={{ solvedboard[3][1] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell32" maxlength="1" max="9" min="1" value={{ solvedboard[3][2] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell40" maxlength="1" max="9" min="1" value={{ solvedboard[4][0] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell41" maxlength="1" max="9" min="1" value={{ solvedboard[4][1] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell42" maxlength="1" max="9" min="1" value={{ solvedboard[4][2] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell50" maxlength="1" max="9" min="1" value={{ solvedboard[5][0] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell51" maxlength="1" max="9" min="1" value={{ solvedboard[5][1] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell52" maxlength="1" max="9" min="1" value={{ solvedboard[5][2] }}>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td id="outer-table-cell">
+						<table class="table-bordered" style="padding-width: 0;">
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell33" maxlength="1" max="9" min="1" value={{ solvedboard[3][3] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell34" maxlength="1" max="9" min="1" value={{ solvedboard[3][4] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell35" maxlength="1" max="9" min="1" value={{ solvedboard[3][5] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell43" maxlength="1" max="9" min="1" value={{ solvedboard[4][3] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell44" maxlength="1" max="9" min="1" value={{ solvedboard[4][4] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell45" maxlength="1" max="9" min="1" value={{ solvedboard[4][5] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell53" maxlength="1" max="9" min="1" value={{ solvedboard[5][3] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell54" maxlength="1" max="9" min="1" value={{ solvedboard[5][4] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell55" maxlength="1" max="9" min="1" value={{ solvedboard[5][5] }}>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td id="outer-table-cell">
+						<table class="table-bordered" style="padding-width: 0;">
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell36" maxlength="1" max="9" min="1" value={{ solvedboard[3][6] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell37" maxlength="1" max="9" min="1" value={{ solvedboard[3][7] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell38" maxlength="1" max="9" min="1" value={{ solvedboard[3][8] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell46" maxlength="1" max="9" min="1" value={{ solvedboard[4][6] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell47" maxlength="1" max="9" min="1" value={{ solvedboard[4][7] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell48" maxlength="1" max="9" min="1" value={{ solvedboard[4][8] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell56" maxlength="1" max="9" min="1" value={{ solvedboard[5][6] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell57" maxlength="1" max="9" min="1" value={{ solvedboard[5][7] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell58" maxlength="1" max="9" min="1" value={{ solvedboard[5][8] }}>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td id="outer-table-cell">
+						<table class="table-bordered" style="padding-width: 0;">
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell60" maxlength="1" max="9" min="1" value={{ solvedboard[6][0] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell61" maxlength="1" max="9" min="1" value={{ solvedboard[6][1] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell62" maxlength="1" max="9" min="1" value={{ solvedboard[6][2] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell70" maxlength="1" max="9" min="1" value={{ solvedboard[7][0] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell71" maxlength="1" max="9" min="1" value={{ solvedboard[7][1] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell72" maxlength="1" max="9" min="1" value={{ solvedboard[7][2] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell80" maxlength="1" max="9" min="1" value={{ solvedboard[8][0] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell81" maxlength="1" max="9" min="1" value={{ solvedboard[8][1] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell82" maxlength="1" max="9" min="1" value={{ solvedboard[8][2] }}>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td id="outer-table-cell">
+						<table class="table-bordered" style="padding-width: 0;">
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell63" maxlength="1" max="9" min="1" value={{ solvedboard[6][3] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell64" maxlength="1" max="9" min="1" value={{ solvedboard[6][4] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell65" maxlength="1" max="9" min="1" value={{ solvedboard[6][5] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell73" maxlength="1" max="9" min="1" value={{ solvedboard[7][3] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell74" maxlength="1" max="9" min="1" value={{ solvedboard[7][4] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell75" maxlength="1" max="9" min="1" value={{ solvedboard[7][5] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell83" maxlength="1" max="9" min="1" value={{ solvedboard[8][3] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell84" maxlength="1" max="9" min="1" value={{ solvedboard[8][4] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell85" maxlength="1" max="9" min="1" value={{ solvedboard[8][5] }}>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td id="outer-table-cell">
+						<table class="table-bordered" style="padding-width: 0;">
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell66" maxlength="1" max="9" min="1" value={{ solvedboard[6][6] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell67" maxlength="1" max="9" min="1" value={{ solvedboard[6][7] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell68" maxlength="1" max="9" min="1" value={{ solvedboard[6][8] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell76" maxlength="1" max="9" min="1" value={{ solvedboard[7][6] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell77" maxlength="1" max="9" min="1" value={{ solvedboard[7][7] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell78" maxlength="1" max="9" min="1" value={{ solvedboard[7][8] }}>
+								</td>
+							</tr>
+							<tr>
+								<td id="inner-table-cell">
+									<input type="number" name="cell86" maxlength="1" max="9" min="1" value={{ solvedboard[8][6] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell87" maxlength="1" max="9" min="1" value={{ solvedboard[8][7] }}>
+								</td>
+								<td id="inner-table-cell">
+									<input type="number" name="cell88" maxlength="1" max="9" min="1" value={{ solvedboard[8][8] }}>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<br>
+		<input type="submit" name="solvebutton" id="solvebutton" value="Solve" class="btn btn-primary">
+	</form>
+	<br>
+	<button onclick="window.location.href='/'" class="btn btn-light" style="display: block; margin: 0 auto;">Clear</button>
+{% endblock %}
