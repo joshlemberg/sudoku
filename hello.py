@@ -19,7 +19,6 @@ def index():
 				boardstring += "."
 			else:
 				boardstring += request.args.get(i)
-		#print(boardstring)
 
 		i = 0
 		split_strings = [0 for x in range(9)]
